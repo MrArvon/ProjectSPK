@@ -1,0 +1,705 @@
+{% extends "base.html" %}
+
+{% block content %}
+{#    <div class="row justify-content-center col-md-auto">#}
+    <div style="position: fixed; top: 90%; left: 92%; z-index: 100">
+        <a href="{% url 'pendataan' %}" class="btn btn-danger">Kembali</a>
+    </div>
+
+    <h2 class="row justify-content-center" style="margin-bottom: 2%">Hasil Perhitungan</h2>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-auto">
+                <table class="table table-bordered table-striped center table-light">
+                    <thead>
+                        <tr style="text-align: center">
+                            <th>Merk</th>
+                            <th>Design</th>
+                            <th>Storage (GB)</th>
+                            <th>Harga (Juta)</th>
+                            <th>Peforma</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in isi %}
+                            <tr style="text-align: center">
+                                <th>{{ i.merk }}</th>
+                                <th>{{ i.design.nilai }}</th>
+                                <th>{{ i.storage }}</th>
+                                <th>{{ i.harga }}</th>
+                                <th>{{ i.peforma.nilai }}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <table class="table table-bordered table-striped table-info">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Matriks Utama</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in isi %}
+                            <tr style="text-align: center">
+                                <th>{{ i.design.nilai }}</th>
+                                <th>{{ i.storage }}</th>
+                                <th>{{ i.harga }}</th>
+                                <th>{{ i.peforma.nilai }}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-auto">
+                <table class="table table-bordered table-striped table-warning">
+                    <thead>
+                        <tr>
+                            <th>Matriks Kepentingan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in isi_penting %}
+                            <tr style="text-align: center">
+                                <th>{{ i }}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{#    {{ matriks_utama }}#}
+{#    <br>#}
+{#    {{ isi_penting }}#}
+{#    <br>#}
+{#    {{ premis }}#}
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Pairwise</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in premis %}
+                            {% if forloop.counter == 5 %}
+                                <tr style="text-align: center">
+                                    {% for j in i %}
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% endfor %}
+                                </tr>
+                            {% else %}
+                                <tr style="text-align: center">
+                                    {% for j in i %}
+                                        <td>{{ j }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-5">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Normalisasi</strong></td>
+                            <td><strong class="row justify-content-center">Rerata</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in normalisasi %}
+                            {% if forloop.counter == 5 %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td><strong>{{ j }}</strong></td>
+                                {% endfor %}
+                            </tr>
+                            {% else %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{#    <div>#}
+{#    <br>{{ pairwise }}#}
+{#    <br>{{ wKriteria }}#}
+{#    <br>{{ hasil3 }}#}
+{#    </div>#}
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Matriks Perbandingan Berpasangan</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in pairwise %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin: auto 0">
+                <box-icon name='x' color='gray'></box-icon>
+            </div>
+
+            <div class="col-md-2">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td><strong class="row justify-content-center">Matriks Bobot</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wKriteria %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin: auto 0">
+                <box-icon name='right-arrow-alt' color='gray'></box-icon>
+            </div>
+
+            <div class="col-md-2">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td><strong class="row justify-content-center">Hasil</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in hasil3 %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-4" style="margin: auto 0;">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Hasil Bagi</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wbagiaw %}
+                            {% if forloop.counter == 3 %}
+                                <tr style="text-align: center">
+                                    {% for j in i %}
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% endfor %}
+                                </tr>
+                            {% else %}
+                                <tr style="text-align: center">
+                                    {% for j in i %}
+                                        <td>{{ j }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-auto" style="margin: auto 0;">
+                <table class="table table-bordered table-striped center table-warning">
+                    <thead>
+                        <tr style="text-align: center">
+                            <td><strong>Total</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ Tot_wbagiaw }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-auto" style="margin: auto 0;">
+                <table class="table table-bordered table-striped center table-success">
+                    <thead>
+                        <tr style="text-align: center">
+                            <td><strong>t</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ t }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-auto" style="margin: auto 0;">
+                <table class="table table-bordered table-striped center table-info">
+                    <thead>
+                        <tr style="text-align: center">
+                            <td><strong>CI</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ CI }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-3" style="margin: auto 0;">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr style="text-align: center">
+                            <td colspan="2"><strong>Tabel Indeks Random</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in IRn %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-2" style="margin: auto 0;">
+                <table class="table table-bordered table-striped center table-secondary" style="table-layout: fixed">
+                    <thead>
+                        <tr style="text-align: center">
+                            <td><strong>CR</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center">{{ CR }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered table-striped center table-dark" style="table-layout: fixed">
+                    <thead>
+                        <tr style="text-align: center">
+                            <td><strong>Konsistensi</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center">{{ konsisten }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col"></div>
+        <div class="container col-4" style="margin: 20px auto;">
+            <h4 style="text-align: center">Perhitungan Bobot Alternatif Desain</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Nilai</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in d %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Bobot</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in na_d %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="container col-4" style="margin: 20px auto;">
+            <h4 style="text-align: center">Perhitungan Bobot Alternatif Storage</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Nilai</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in s %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Bobot</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in na_s %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="container col-5" style="margin: 20px auto;">
+            <h4 style="text-align: center">Perhitungan Bobot Alternatif Harga</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Nilai</strong></td>
+                                <td><strong class="row justify-content-center">Min/ Harga</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j, k in h %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                        <td><strong>{{ k }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                        <td>{{ k }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-5">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Bobot</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in na_h %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="container col-4" style="margin: 20px auto;">
+            <h4 style="text-align: center">Perhitungan Bobot Alternatif Peforma</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Nilai</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in p %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td colspan="2"><strong class="row justify-content-center">Bobot</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i, j in na_p %}
+                                <tr style="text-align: center">
+                                    {% if forloop.counter == lmerk %}
+                                        <td><strong>{{ i }}</strong></td>
+                                        <td><strong>{{ j }}</strong></td>
+                                    {% else %}
+                                        <td>{{ i }}</td>
+                                        <td>{{ j }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+
+    <div class="container" style="margin: 20px auto;">
+        <h4 style="text-align: center">Hasil Normalisasi Alternatif</h4>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Nilai</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wap %}
+                            <tr style="text-align: center">
+                                {% if forloop.counter == lmerk %}
+                                    {% for j in i %}
+                                    <td><strong>{{ j }}</strong></td>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for j in i %}
+                                    <td>{{ j }}</td>
+                                    {% endfor %}
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-2">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td><strong class="row justify-content-center">Matriks Bobot</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wKriteria %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        <td style="text-align: center; font-weight: bold">1.0</td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td colspan="4"><strong class="row justify-content-center">Matriks Normalisasi Alternatif</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wap_tanpa_total %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin: auto 0">
+                <box-icon name='x' color='gray'></box-icon>
+            </div>
+
+            <div class="col-md-2">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td><strong class="row justify-content-center">Matriks Bobot</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in wKriteria %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin: auto 0">
+                <box-icon name='right-arrow-alt' color='gray'></box-icon>
+            </div>
+
+            <div class="col-md-2">
+                <table class="table table-bordered table-striped center table-light" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td><strong class="row justify-content-center">Hasil Akhir</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in hasil_akhir %}
+                            <tr style="text-align: center">
+                                <td>{{ i }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{#    {{ wap_tanpa_total }}#}
+{#    <br>#}
+{#    {{ hasil_akhir }}#}
+{#    <br>#}
+{#    {{ rank }}#}
+
+    <div class="container" style="margin: 20px auto;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table class="table table-bordered table-striped center table-success" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <td><strong class="row justify-content-center">Merk</strong></td>
+                            <td><strong class="row justify-content-center">Nilai Akhir</strong></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in rank %}
+                            <tr style="text-align: center">
+                                {% for j in i %}
+                                    <td>{{ j }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

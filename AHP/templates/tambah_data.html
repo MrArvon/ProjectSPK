@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                {% if pesan %}
+                    <div class="alert alert-success">{{ pesan }}</div>
+                {% endif %}
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary">Tambah</button>
+                    <a href="{% url 'pendataan' %}" class="btn btn-danger">Batal</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

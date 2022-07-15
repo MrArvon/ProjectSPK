@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                {% for pesan in messages %}
+                    {% if pesan %}
+                        <div class="alert alert-success">{{ pesan }}</div>
+                    {% endif %}
+                {% endfor %}
+                <form action="{% url 'pengeditan' isi.id %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div style="text-align: center">
+                        <button class="btn btn-primary">Simpan</button>
+                        <a href="../" class="btn btn-danger">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
